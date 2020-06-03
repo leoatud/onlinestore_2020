@@ -7,10 +7,21 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="gmall_user_management" />
+        <module name="gmall_bean" />
+        <module name="gmall_util_service" />
+        <module name="gmall_interface" />
+        <module name="gmall_util_common" />
+        <module name="gmall_util_web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="gmall_bean" target="1.8" />
+      <module name="gmall_interface" target="1.8" />
+      <module name="gmall_parent" target="1.8" />
       <module name="gmall_user_management" target="1.8" />
+      <module name="gmall_util_common" target="1.8" />
+      <module name="gmall_util_service" target="1.8" />
+      <module name="gmall_util_web" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
