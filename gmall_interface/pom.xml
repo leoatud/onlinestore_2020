@@ -6,7 +6,6 @@
         <artifactId>gmall_parent</artifactId>
         <groupId>com.gmall</groupId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../gmall_parent/pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

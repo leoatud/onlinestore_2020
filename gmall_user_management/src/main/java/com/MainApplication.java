@@ -1,5 +1,6 @@
 package com;
 
+import com.alibaba.dubbo.config.spring.context.annotation.EnableDubbo;
 import com.sun.javaws.Main;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,6 +10,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
 @MapperScan(basePackages = "com.gmall.mapper")
+@EnableDubbo
 public class MainApplication {
 
     public static void main(String[] args) {

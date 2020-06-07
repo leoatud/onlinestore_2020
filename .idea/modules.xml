@@ -4,6 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/gmall_bean/gmall_bean.iml" filepath="$PROJECT_DIR$/gmall_bean/gmall_bean.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall_interface/gmall_interface.iml" filepath="$PROJECT_DIR$/gmall_interface/gmall_interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gmall_item_web/gmall_item_web.iml" filepath="$PROJECT_DIR$/gmall_item_web/gmall_item_web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gmall_manager_service/gmall_manager_service.iml" filepath="$PROJECT_DIR$/gmall_manager_service/gmall_manager_service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gmall_manager_web/gmall_manager_web.iml" filepath="$PROJECT_DIR$/gmall_manager_web/gmall_manager_web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gmall_order_web/gmall_order_web.iml" filepath="$PROJECT_DIR$/gmall_order_web/gmall_order_web.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall_parent/gmall_parent.iml" filepath="$PROJECT_DIR$/gmall_parent/gmall_parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall_user_management/gmall_user_management.iml" filepath="$PROJECT_DIR$/gmall_user_management/gmall_user_management.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall_util_common/gmall_util_common.iml" filepath="$PROJECT_DIR$/gmall_util_common/gmall_util_common.iml" />

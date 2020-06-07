@@ -1,10 +1,8 @@
 package com.gmall.controller;
 
 import com.gmall.bean.UserInfo;
-import com.gmall.service.UserService;
-import com.gmall.service.impl.UserServiceImpl;
+import com.gmall.serviceimpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
