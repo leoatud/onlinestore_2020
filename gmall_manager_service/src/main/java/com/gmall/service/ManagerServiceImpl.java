@@ -1,6 +1,7 @@
 package com.gmall.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
 import com.gmall.bean.base.*;
 import com.gmall.bean.sku.SkuAttrValue;
 import com.gmall.bean.sku.SkuImage;
@@ -20,12 +21,22 @@ import com.gmall.mapper.spu.SpuInfoMapper;
 import com.gmall.mapper.spu.SpuSaleAttrMapper;
 import com.gmall.mapper.spu.SpuSaleAttrValueMapper;
 import com.gmall.serviceimpl.ManagerService;
+import com.gmall.util.RedisUtil;
+import org.redisson.Redisson;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import redis.clients.jedis.Jedis;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Component
@@ -193,6 +204,11 @@ public class ManagerServiceImpl implements ManagerService {
         return spuSaleAttrMapper.selectSpuSaleAttrList(spuId);
     }
 
+    @Override
+    public List<SpuSaleAttr> getSpuSaleAttrListBySpuIdCheckSku(String spuId, String skuId) {
+        return spuSaleAttrMapper.getSpuSaleAttrListBySpuIdCheckSku(spuId, skuId);
+    }
+
 
     /**
      * SKU logic start here =======================================
@@ -246,9 +262,9 @@ public class ManagerServiceImpl implements ManagerService {
         }
     }
 
-    @Override
-    public SkuInfo getSkuInfo(String skuId) {
+    public SkuInfo getSkuInfoDb(String skuId) {
         SkuInfo skuInfo = skuInfoMapper.selectByPrimaryKey(skuId);
+        if (skuInfo == null) return null;
         SkuImage skuImage = new SkuImage();
         skuImage.setSkuId(skuId);
         List<SkuImage> skuImageList = skuImageMapper.select(skuImage);
@@ -261,4 +277,108 @@ public class ManagerServiceImpl implements ManagerService {
         //分别放进去两个list的内容，然后再return
         return skuInfo;
     }
+
+    @Override
+    public Map getSkuValueIdsMap(String spuId) {
+        List<Map> mapList = skuSaleAttrValueMapper.getSaleAttrValuesBySpu(spuId);
+        Map skuValueIds = new HashMap();
+        for (Map map : mapList) {
+            String skuId = map.get("sku_id") + "";  //no matter get long or string, will be convert to string
+            String valueIds = (String) map.get("value_ids");
+            skuValueIds.put(valueIds, skuId);
+        }
+        return skuValueIds;
+    }
+
+    /**
+     * Redis usage demo ==================================
+     */
+    @Autowired
+    private RedisUtil redisUtil;
+
+    public static final String SKUKEY_PREFIX = "sku:";
+    public static final String SKUKEY_INFO_SUFFIX = ":info";
+    public static final String SKUKEY_LOCK_SUFFIX = "：lock";
+    public static final int SKU_EXPIRE = 10;  // Cache, valid time
+
+    //access through redis
+    @Override
+    public SkuInfo getSkuInfo(String skuId) {
+        Jedis jedis = redisUtil.getJedis();
+        String skuKey = SKUKEY_PREFIX + skuId + SKUKEY_INFO_SUFFIX;
+        String skuInfoJson = jedis.get(skuKey);
+        SkuInfo skuInfo = new SkuInfo();
+        if (skuInfoJson != null) {
+            System.out.println("Redis found cache");
+            skuInfo = JSON.parseObject(skuInfoJson, SkuInfo.class);
+        } else {
+            //setnx here
+            //type key value -->写进去一个任何的内容，当成lock，用来判断
+            //自定义一个lock，写进redis里面
+            String lockKey = SKUKEY_PREFIX + skuId + SKUKEY_LOCK_SUFFIX;
+            //Long locked = jedis.setnx(lockKey, "locked");
+            String token = UUID.randomUUID().toString();
+            String locked = jedis.set(lockKey, token, "NX", "EX", 10);
+
+            if ("OK".equals(locked)) {
+                //if not found--> go check db
+                skuInfo = getSkuInfoDb(skuId);
+                //write new result into redis
+                String s = JSON.toJSONString(skuInfo);
+                jedis.setex(skuKey, SKU_EXPIRE, s);
+                if (jedis.exists(lockKey) && jedis.get(lockKey).equals(token)) {
+                    jedis.del(lockKey);
+                }
+            } else {
+                //sleep thread, and then call itself, recursion
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                getSkuInfo(skuId);
+            }
+        }
+        jedis.close();
+        return skuInfo;
+    }
+
+    /**
+     * Redission: higher level of redis
+     */
+    public SkuInfo getSkuInfo_redisson(String skuId) {
+        //底层实现还是redis, 因此不用变，只需要更改涉及到🔐的地方
+        Jedis jedis = redisUtil.getJedis();
+        String skuKey = SKUKEY_PREFIX + skuId + SKUKEY_INFO_SUFFIX;
+        String skuInfoJson = jedis.get(skuKey);
+        String lockKey = SKUKEY_PREFIX + skuId + SKUKEY_LOCK_SUFFIX;
+
+        SkuInfo skuInfo = new SkuInfo();
+        if (skuInfoJson != null) {
+            System.out.println("Redis found cache");
+            skuInfo = JSON.parseObject(skuInfoJson, SkuInfo.class);
+        } else {
+            Config config = new Config(); // 选择redisson的
+            //因为只在local运行，所以用127
+            config.useSingleServer().setAddress("redis://127.0.0.1:6379");
+            RedissonClient redissonClient = Redisson.create(config);
+
+            RLock lock = redissonClient.getLock(lockKey);
+            //lock.lock(10, TimeUnit.SECONDS);  //强制上锁
+            try {
+                lock.tryLock(10,5,TimeUnit.SECONDS);  //尝试上锁，可以timeout
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            skuInfo = getSkuInfoDb(skuId);
+            String s = JSON.toJSONString(skuInfo);
+            jedis.setex(skuKey, SKU_EXPIRE, s);
+
+            lock.unlock(); //释放锁
+
+        }
+        return null;
+    }
+
 }

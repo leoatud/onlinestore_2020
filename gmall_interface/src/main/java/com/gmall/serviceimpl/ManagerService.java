@@ -7,6 +7,7 @@ import com.gmall.bean.spu.SpuInfo;
 import com.gmall.bean.spu.SpuSaleAttr;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ManagerService {
 
@@ -42,4 +43,11 @@ public interface ManagerService {
     void saveSkuInfo(SkuInfo skuInfo);
 
     SkuInfo getSkuInfo(String skuId);
+
+    List<SpuSaleAttr> getSpuSaleAttrListBySpuIdCheckSku(String spuId, String skuId);
+
+    //get group_concat skuAttrIdsMap
+    Map getSkuValueIdsMap(String spuId);
+
+
 }
