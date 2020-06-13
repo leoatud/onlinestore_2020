@@ -12,6 +12,13 @@
 
     <artifactId>gmall_util_web</artifactId>
     <dependencies>
+        <!--        jwt-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.0</version>
+        </dependency>
+
         <!--        test added-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -4,11 +4,11 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.fastjson.JSON;
 import com.gmall.bean.sku.SkuInfo;
 import com.gmall.bean.spu.SpuSaleAttr;
-import com.gmall.serviceimpl.ManagerService;
+import com.gmall.config.LoginRequire;
+import com.gmall.service.ManagerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -21,6 +21,7 @@ public class ItemController {
     ManagerService managerService;
 
     @GetMapping("/{skuId}.html")  //伪静态的html path
+    //@LoginRequire(autoRedirect = true)
     public String item(@PathVariable("skuId") String skuId, HttpServletRequest request) {
 
         SkuInfo skuInfo = managerService.getSkuInfo(skuId);

@@ -7,30 +7,38 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="gmall_user_management" />
-        <module name="gmall_manager_web" />
-        <module name="gmall_bean" />
-        <module name="gmall_order_web" />
-        <module name="gmall_manager_service" />
-        <module name="gmall_util_service" />
         <module name="gmall_interface" />
+        <module name="gmall_list_web" />
         <module name="gmall_list_service" />
-        <module name="gmall_item_web" />
-        <module name="gmall_util_web" />
+        <module name="gmall_manager_service" />
+        <module name="gmall_manager_web" />
+        <module name="gmall_passport_web" />
         <module name="gmall_util_common" />
+        <module name="gmall_user_manage_service" />
+        <module name="gmall_util_web" />
+        <module name="gmall_cart_service" />
+        <module name="gmall_bean" />
+        <module name="gmall_cart_web" />
+        <module name="gmall_util_service" />
+        <module name="gmall_item_web" />
+        <module name="gmall_order_web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="fastdfs-client-java" target="1.6" />
       <module name="gmall_bean" target="1.8" />
+      <module name="gmall_cart_service" target="8" />
+      <module name="gmall_cart_web" target="1.8" />
       <module name="gmall_interface" target="1.8" />
       <module name="gmall_item_web" target="1.8" />
       <module name="gmall_list_service" target="1.8" />
+      <module name="gmall_list_web" target="1.8" />
       <module name="gmall_manager_service" target="1.8" />
       <module name="gmall_manager_web" target="1.8" />
       <module name="gmall_order_web" target="1.8" />
       <module name="gmall_parent" target="1.8" />
-      <module name="gmall_user_management" target="1.8" />
+      <module name="gmall_passport_web" target="1.8" />
+      <module name="gmall_user_manage_service" target="1.8" />
       <module name="gmall_util_common" target="1.8" />
       <module name="gmall_util_service" target="1.8" />
       <module name="gmall_util_web" target="1.8" />
@@ -42,7 +50,7 @@
       <module name="gmall_manager_service" options="" />
       <module name="gmall_manager_web" options="" />
       <module name="gmall_order_web" options="" />
-      <module name="gmall_user_management" options="" />
+      <module name="gmall_user_manage_service" options="" />
     </option>
   </component>
 </project>

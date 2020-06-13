@@ -14,6 +14,8 @@
         <module>../gmall_util_common</module>
         <module>../gmall_util_web</module>
         <module>../gmall_util_service</module>
+        <module>../gmall_cart_service</module>
+        <module>../gmall_cart_web</module>
     </modules>
 
     <name>gmall_parent</name>

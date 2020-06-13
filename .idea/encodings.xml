@@ -2,14 +2,18 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/gmall_bean/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gmall_cart_service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gmall_cart_web/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gmall_interface/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gmall_item_web/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gmall_list_service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gmall_list_web/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gmall_manager_service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gmall_manager_web/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gmall_order_web/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gmall_parent/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/gmall_user_management/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gmall_passport_web/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/gmall_user_manage_service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gmall_util_common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gmall_util_service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gmall_util_web/src/main/java" charset="UTF-8" />

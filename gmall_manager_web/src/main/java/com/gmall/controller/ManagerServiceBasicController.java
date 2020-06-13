@@ -3,12 +3,16 @@ package com.gmall.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.gmall.bean.base.*;
 import com.gmall.bean.sku.SkuInfo;
+import com.gmall.bean.sku.SkuLsInfo;
 import com.gmall.bean.spu.SpuImage;
 import com.gmall.bean.spu.SpuInfo;
 import com.gmall.bean.spu.SpuSaleAttr;
-import com.gmall.serviceimpl.ManagerService;
+import com.gmall.service.ListService;
+import com.gmall.service.ManagerService;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 @RestController
@@ -17,6 +21,9 @@ public class ManagerServiceBasicController {
 
     @Reference
     ManagerService managerService;
+
+    @Reference
+    ListService listService;
 
 
     @PostMapping("/getCatalog1")
@@ -87,6 +94,37 @@ public class ManagerServiceBasicController {
     @GetMapping("/spuImageList")
     public List<SpuImage> getSpuImage(String spuId) {
         return managerService.getSpuImageList(spuId);
+    }
+
+
+    /**
+     * for elasticsearch online
+     */
+    public String onSaleBySpu(String spuId){
+        //根据SPU将旗下所有SKU上架
+
+        //search by spuId
+
+        //for loop add onsale
+        return null;
+    }
+
+    @PostMapping("/onSale")
+    public String onSale(@RequestParam("skuId") String skuId){
+        SkuInfo skuInfo = managerService.getSkuInfo(skuId);
+
+        SkuLsInfo skuLsInfo = new SkuLsInfo();
+        try {
+            BeanUtils.copyProperties(skuLsInfo,skuInfo);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        listService.saveSkuListInfo(skuLsInfo);
+
+        return "success";
     }
 
 }

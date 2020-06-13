@@ -20,8 +20,8 @@ import com.gmall.mapper.spu.SpuImageMapper;
 import com.gmall.mapper.spu.SpuInfoMapper;
 import com.gmall.mapper.spu.SpuSaleAttrMapper;
 import com.gmall.mapper.spu.SpuSaleAttrValueMapper;
-import com.gmall.serviceimpl.ManagerService;
 import com.gmall.util.RedisUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.redisson.Redisson;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -265,16 +265,23 @@ public class ManagerServiceImpl implements ManagerService {
     public SkuInfo getSkuInfoDb(String skuId) {
         SkuInfo skuInfo = skuInfoMapper.selectByPrimaryKey(skuId);
         if (skuInfo == null) return null;
+        //image
         SkuImage skuImage = new SkuImage();
         skuImage.setSkuId(skuId);
         List<SkuImage> skuImageList = skuImageMapper.select(skuImage);
         skuInfo.setSkuImageList(skuImageList);
 
+        //销售属性
         SkuSaleAttrValue skuSaleAttrValue = new SkuSaleAttrValue();
         skuSaleAttrValue.setSkuId(skuId);
         List<SkuSaleAttrValue> skuSaleAttrValues = skuSaleAttrValueMapper.select(skuSaleAttrValue);
         skuInfo.setSkuSaleAttrValueList(skuSaleAttrValues);
-        //分别放进去两个list的内容，然后再return
+
+        //平台属性
+        SkuAttrValue skuAttrValue = new SkuAttrValue();
+        skuAttrValue.setSkuId(skuId);
+        List<SkuAttrValue> skuAttrValueList = skuAttrValueMapper.select(skuAttrValue);
+        skuInfo.setSkuAttrValueList(skuAttrValueList);
         return skuInfo;
     }
 
@@ -381,4 +388,11 @@ public class ManagerServiceImpl implements ManagerService {
         return null;
     }
 
+
+    @Override
+    public List<BaseAttrInfo> getAttrList(List attrValueIdList) {
+        //list --> xx,xx,xx
+        String join = StringUtils.join(attrValueIdList.toArray(), ",");
+        return baseAttrInfoMapper.getBaseAttrInfoListByValueIds(join);
+    }
 }
