@@ -1,0 +1,40 @@
+单点登录  sso  
+
+single-sign-on 
+
+
+1    搭建认证中心 
+        0 注册服务 
+        1 登录  
+		      1 查询比对 数据库和用户提交的用户名密码 
+			  2 加载用户信息到缓存 超时时间
+              3 创建一个token  通过浏览器参数  发送给用户	（1 、验签  2、token有一些基本信息 可以在未登录情况下 使用或显示 ）	
+                    jwt    -> 1、 密钥  2 数据  3 salt   当时登录时的ip地址 			  
+		
+		2  认证、校验 
+		       
+			  1 检查token   1 、token  2、密钥 3、ip地址      controller 验证 
+			  2 检查缓存里的数据    从token中取出userid     service 验证 
+		
+
+
+
+2    各个业务模块 调用认证中心服务的代码    （util-web ）
+
+		1  检查是否有token    
+	           如果没有 重定向到认证中心的登录页面 
+	    
+		2  用户拿到token了 
+		       校验  向认证中心发起校验  （有选择性的发起 ， 只有需要用户登录的功能）
+			   
+			   把token写入到cookie 
+			   
+			   从cookie的token 获取基本信息（用户id 、昵称）   加载到请求属性 可以供页面简单显示 
+
+
+ 
+
+
+  cookie 的作用域    cart.gmall.com   cookie中存入 某个值   domain  gmall.com/login    那么 我在 order.gmall.com   能不能把这个值取到   
+                  setDomain    setPath /                                                     order.gmall.com/regi
+        

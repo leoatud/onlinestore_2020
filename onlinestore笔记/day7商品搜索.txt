@@ -1,0 +1,167 @@
+商品搜索 
+     
+	 
+	 保存 
+	    在哪  ES
+        数据结构  
+             es 6.x 索引 index ----- mysql表
+			 
+		    es 	 索引的定义  mapping
+			
+			字段  ：   要查询出的字段  要包含涉及过滤的字段 
+			
+			    名称  价格  sku_id   平台属性值（多个）  三级分类     描述  
+			
+			分三种字段    节省资源   默认 凡是字符串  一律进行索引且 分词 
+			   
+			    1、 需要分词       商品名称      字段类型   字符串类型 text(分词)选   keyword (不分词)不选    
+				                                 分词器 设定自定义分词  ik_smark  (尽可能少的分词)  ik_max_work （尽可能多的分词） 
+				2、 需要索引，但是不需要分词          价格     平台属性   三级分类 
+				                                  如果是字符串 字段类型 选用  keyword 
+				3、 不需要索引的字段       图片路径 sku_id  描述     es 是默认天然索引   index: false   不需要索引      
+			
+			定义mapping
+			
+	dsl   get  put 幂等   （create ）   post 非幂等 (insert )  delete 		 
+
+
+
+PUT gmall0401_sku_info
+{
+  "mappings": {
+    "_doc":{
+      "properties": {
+        "id":{
+          "type": "keyword"
+          , "index": false
+        },
+        "price":{
+          "type": "double"
+        },
+         "skuName":{
+          "type": "text",
+          "analyzer": "ik_max_word"
+        },
+        "catalog3Id":{
+          "type": "keyword"
+        },
+        "skuDefaultImg":{
+          "type": "keyword",
+          "index": false
+        },
+        "skuAttrValueList":{
+          "properties": {
+            "valueId":{
+              "type":"keyword"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+PUT /gmall0401_sku_info/_doc/1
+{
+   "id":"1",
+   "price":2200.00,
+   "skuName":"华为手机xxxxx",
+   "catalog3Id":"69",
+   "skuDefaultImg":"http://file.gmall.com/xxxfafa/",
+   "skuAttrValueList":[
+        {"valueId":"101"},
+         {"valueId":"102"}
+      ]
+  
+}
+
+
+POST /gmall0401_sku_info/_doc
+{
+   "id":"2",
+   "price":2200.00,
+   "skuName":"华为手机99999",
+   "catalog3Id":"69",
+   "skuDefaultImg":"http://file.gmall.com/xxxfafa/",
+   "skuAttrValueList":[
+        {"valueId":"101"},
+         {"valueId":"102"}
+      ]
+  
+}
+
+GET gmall0401_sku_info/_search
+
+DELETE gmall0401_sku_info/_doc/1
+
+-->  JavaBean
+
+#query
+  
+# 商品名称的全文检索
+
+# 根据3级分类进行过滤 
+# 根据平台属性值 进行过滤 
+# 根据价格范围
+
+# 分页  from size
+# 高亮   highlight
+# 聚合 以skuAttrValueList.valueId   aggs 
+# 按热度进行排序 
+
+GET gmall0401_sku_info/_doc/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {"match": {
+          "skuName": "小米黑"
+        }}
+      ],
+      "filter": [ 
+          {"terms":["55","61","77"]}  in 
+          {"term": {
+            "catalog3Id": "61"
+          }},
+          {"term": {
+            "skuAttrValueList.valueId": "83"
+          }},
+          {"term": {
+            "skuAttrValueList.valueId": "154"
+          }},
+          
+           {"range": {
+            "price": {"gte": 3200}
+           }}
+
+        ]
+      }
+    },
+    "from": 0
+    , "size": 2
+    , "highlight": {"fields": {"skuName": {"pre_tags": "<span style='color:red' >","post_tags": "</span>"}}  }
+  
+    ,
+    "aggs": {
+      "groupby_valueid": {
+        "terms": {
+          "field": "skuAttrValueList.valueId",
+          "size": 1000
+        }
+      }
+    },
+    "sort": [
+      {
+        "hotScore": {
+          "order": "desc"
+        }
+      }
+    ]
+}
+	 
+	  
+	 
+
+			 
+       		
+	 
