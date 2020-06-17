@@ -21,8 +21,7 @@ import java.io.InputStream;
 
 public class HttpClientUtil {
 
-    public static String doGet(String url)   {
-
+    public static String doGet(String url) {
         // 创建Httpclient对象
         CloseableHttpClient httpclient = HttpClients.createDefault();
         // 创建http GET请求
@@ -40,16 +39,16 @@ public class HttpClientUtil {
                 return result;
             }
             httpclient.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
 
-        return  null;
+        return null;
     }
 
 
-    public static void download(String url,String fileName)   {
+    public static void download(String url, String fileName) {
 
         // 创建Httpclient对象
         CloseableHttpClient httpclient = HttpClients.createDefault();
@@ -63,10 +62,10 @@ public class HttpClientUtil {
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                 HttpEntity entity = response.getEntity();
 
-               // String result = EntityUtils.toString(entity, "UTF-8");
+                // String result = EntityUtils.toString(entity, "UTF-8");
                 byte[] bytes = EntityUtils.toByteArray(entity);
-                File file =new File(fileName);
-               //  InputStream in = entity.getContent();
+                File file = new File(fileName);
+                //  InputStream in = entity.getContent();
                 FileOutputStream fout = new FileOutputStream(file);
                 fout.write(bytes);
 
@@ -75,14 +74,14 @@ public class HttpClientUtil {
                 httpclient.close();
                 fout.flush();
                 fout.close();
-                return  ;
+                return;
             }
             httpclient.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
-            return  ;
+            return;
         }
 
-        return   ;
+        return;
     }
 }

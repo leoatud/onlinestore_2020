@@ -1,11 +1,9 @@
 package com.gmall.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.gmall.bean.UserInfo;
+import com.gmall.bean.user.UserInfo;
 import com.gmall.service.UserService;
 import com.gmall.util.JwtUtil;
-import org.apache.catalina.User;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

@@ -13,4 +13,6 @@ public interface CartService {
     List<CartInfo> mergeCartList(String userId, String userIdOrig);
 
     void checkCart(String userId, String skuId, String isChecked);
+
+    List<CartInfo> getCheckedCartList(String userId);
 }

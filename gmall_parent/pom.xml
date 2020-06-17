@@ -16,6 +16,7 @@
         <module>../gmall_util_service</module>
         <module>../gmall_cart_service</module>
         <module>../gmall_cart_web</module>
+        <module>../gmall_order_service</module>
     </modules>
 
     <name>gmall_parent</name>

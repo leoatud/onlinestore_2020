@@ -13,11 +13,6 @@
     <artifactId>gmall_bean</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>com.gmall</groupId>
-            <artifactId>gmall_parent</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
 

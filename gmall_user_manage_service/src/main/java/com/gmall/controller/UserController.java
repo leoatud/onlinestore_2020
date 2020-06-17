@@ -1,6 +1,6 @@
 package com.gmall.controller;
 
-import com.gmall.bean.UserInfo;
+import com.gmall.bean.user.UserInfo;
 import com.gmall.serviceimpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

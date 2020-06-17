@@ -7,6 +7,7 @@
   <groupId>com.gmall</groupId>
   <artifactId>gmall_cart_web</artifactId>
   <version>1.0-SNAPSHOT</version>
+
   <parent>
     <artifactId>gmall_parent</artifactId>
     <groupId>com.gmall</groupId>

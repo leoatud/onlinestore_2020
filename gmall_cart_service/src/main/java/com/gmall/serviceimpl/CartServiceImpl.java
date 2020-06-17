@@ -144,7 +144,7 @@ public class CartServiceImpl implements CartService {
         String cartKey = "cart:" + userId + ":info";
         Jedis jedis = redisUtil.getJedis();
         Long ttl = jedis.ttl(cartKey);
-        jedis.expire(cartKey, ttl.intValue()+ 10);  //增加10s expire time
+        jedis.expire(cartKey, ttl.intValue() + 10);  //增加10s expire time
         Boolean exists = jedis.exists(cartKey);
         jedis.close();
         if (!exists) {
@@ -172,15 +172,28 @@ public class CartServiceImpl implements CartService {
 
         //create another jedis part to save all checked components
         String cartCheckedKey = "cart:" + userId + ":checked";
-        if(isChecked.equals("1")){
-            jedis.hset(cartCheckedKey,skuId,cartInfoJson);
-            jedis.expire(cartCheckedKey,60*60);
-        }else{
-            jedis.hdel(cartCheckedKey,skuId);
+        if (isChecked.equals("1")) {
+            jedis.hset(cartCheckedKey, skuId, cartInfoJson);
+            jedis.expire(cartCheckedKey, 60 * 60);
+        } else {
+            jedis.hdel(cartCheckedKey, skuId);
         }
-
-
+        jedis.close();
     }
 
+    @Override
+    public List<CartInfo> getCheckedCartList(String userId) {
+        String cartCheckedKey = "cart:" + userId + ":checked";
+        Jedis jedis = redisUtil.getJedis();
 
+        List<String> checkedCartList = jedis.hvals(cartCheckedKey);
+        List<CartInfo> cartInfoList = new ArrayList<>();
+        for (String cartInfoJson : checkedCartList) {
+            CartInfo cartInfo = JSON.parseObject(cartInfoJson, CartInfo.class);
+            cartInfoList.add(cartInfo);
+        }
+
+        jedis.close();
+        return cartInfoList;
+    }
 }

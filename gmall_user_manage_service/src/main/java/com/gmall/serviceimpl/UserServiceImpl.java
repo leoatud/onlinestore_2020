@@ -2,7 +2,9 @@ package com.gmall.serviceimpl;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.fastjson.JSON;
-import com.gmall.bean.UserInfo;
+import com.gmall.bean.user.UserInfo;
+import com.gmall.bean.user.UserAddress;
+import com.gmall.mapper.UserAddressMapper;
 import com.gmall.mapper.UserMapper;
 import com.gmall.service.UserService;
 import com.gmall.util.RedisUtil;
@@ -20,6 +22,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    UserAddressMapper userAddressMapper;
 
     @Autowired //for userinfo cache useage
             RedisUtil redisUtil;
@@ -101,13 +105,20 @@ public class UserServiceImpl implements UserService {
         String userKey = USER_KEY_PREFIX + userId + USERINFO_SUFFIX;
         Boolean isLogin = jedis.exists(userKey);
 
-        if(isLogin){
+        if (isLogin) {
             jedis.expire(userKey, USERKEY_TIMEOUT);
         }
-
         jedis.close();
-
-
-        return null;
+        return isLogin;
     }
+
+
+    @Override
+    public List<UserAddress> getUserAddressList(String userId) {
+        UserAddress userAddress = new UserAddress();
+        userAddress.setUserId(userId);
+        return userAddressMapper.select(userAddress);
+    }
+
+
 }

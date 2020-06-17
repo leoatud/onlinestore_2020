@@ -1,6 +1,6 @@
 package com.gmall.mapper;
 
-import com.gmall.bean.UserInfo;
+import com.gmall.bean.user.UserInfo;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.util.List;

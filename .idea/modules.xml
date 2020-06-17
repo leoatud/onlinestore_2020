@@ -11,13 +11,16 @@
       <module fileurl="file://$PROJECT_DIR$/gmall_list_web/gmall_list_web.iml" filepath="$PROJECT_DIR$/gmall_list_web/gmall_list_web.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall_manager_service/gmall_manager_service.iml" filepath="$PROJECT_DIR$/gmall_manager_service/gmall_manager_service.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall_manager_web/gmall_manager_web.iml" filepath="$PROJECT_DIR$/gmall_manager_web/gmall_manager_web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gmall_order_service/gmall_order_service.iml" filepath="$PROJECT_DIR$/gmall_order_service/gmall_order_service.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall_order_web/gmall_order_web.iml" filepath="$PROJECT_DIR$/gmall_order_web/gmall_order_web.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall_parent/gmall_parent.iml" filepath="$PROJECT_DIR$/gmall_parent/gmall_parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall_passport_web/gmall_passport_web.iml" filepath="$PROJECT_DIR$/gmall_passport_web/gmall_passport_web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gmall_payment/gmall_payment.iml" filepath="$PROJECT_DIR$/gmall_payment/gmall_payment.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall_user_manage_service/gmall_user_manage_service.iml" filepath="$PROJECT_DIR$/gmall_user_manage_service/gmall_user_manage_service.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall_util_common/gmall_util_common.iml" filepath="$PROJECT_DIR$/gmall_util_common/gmall_util_common.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall_util_service/gmall_util_service.iml" filepath="$PROJECT_DIR$/gmall_util_service/gmall_util_service.iml" />
       <module fileurl="file://$PROJECT_DIR$/gmall_util_web/gmall_util_web.iml" filepath="$PROJECT_DIR$/gmall_util_web/gmall_util_web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gware_manage/gware_manage.iml" filepath="$PROJECT_DIR$/gware_manage/gware_manage.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/onlinestoreproject.iml" filepath="$PROJECT_DIR$/.idea/onlinestoreproject.iml" />
     </modules>
   </component>
